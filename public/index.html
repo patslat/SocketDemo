@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <input type="text" id="chat">
+    <div id="content">
+    </div>
+    <script>
+      var $content = $('#content'),
+          $chat = $('#chat'),
+          socket = io.connect('http://localhost:3000');
+
+      $chat.on('keypress', function (e) {
+        if (e.charCode === 13) {
+          e.preventDefault();
+          socket.emit('message', e.target.value);
+          e.target.value = '';
+        }
+      });
+
+      socket.on('echo', function (data) {
+        $content.append('<p>' + data + '</p>');
+      });
+
+      socket.on('pushedMessage', function (data) {
+        $content.append('<p>' + data + '</p>');
+      });
+
+      socket.emit('message', "This is the first message");
+    </script>
+  </body>
+</html>
