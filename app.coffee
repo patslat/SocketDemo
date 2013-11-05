@@ -22,8 +22,6 @@ staticResponse = (fileName, res) ->
     res.end()
 
 
-
-
 server.listen 3000
 io = socketio.listen(server)
 
@@ -31,7 +29,6 @@ io.sockets.on 'connection', (socket) ->
   console.log 'Socket connected!'
 
   socket.on 'message', (data) ->
-    console.log data
     socket.emit 'echo', data
 
   setInterval () ->
